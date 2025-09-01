@@ -1,0 +1,5 @@
+S1 = abcdefghijkl . mnopqrst . uvwxyz
+S2 = $S1[10] ^ 20
+S2 = $S1[<6].$S1[8,10].$S1[>6]^3
+S3 = $S1 [ < 6 ] . $S1 [ 8 , 10 ] . $S1 [ > 6 ] ^ 3
+S4 = abcdefghijklmnopqrstuvwxyz [ < 6 ] . abcdefghijklmnopqrstuvwxyz [ 8 , 10] . abcdefghijklmnopqrstuvwxyz [ > 6 ] ^ 3
