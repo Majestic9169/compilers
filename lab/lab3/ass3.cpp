@@ -36,7 +36,6 @@ public:
     if (contains(ref)) {
       return st[ref];
     } else {
-      // TODO: not an error
       Error err{"undefined variable " + ref};
       cerr << endl << err.err_msg << "           ";
       return "";
