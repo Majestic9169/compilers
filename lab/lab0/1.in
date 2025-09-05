@@ -1,0 +1,5 @@
+S1 = abc
+S2 = $S1 ^ 10
+T = $S1 . def^2 . $S2
+U = x . y^7 . z
+V = $U ^ 3 . $W^2 . z^5 . $S1 . defghijklmnopqrstuvw
