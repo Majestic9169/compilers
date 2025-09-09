@@ -1,0 +1,10 @@
+line> S is set to "abcabcdefdefxyz"
+line> T is set to "abcabcdefdefxyzabcabcdefdefxyz"
+line> U is set to "rrrrrsssstttuuvw"
+line> V is set to "rrrrrsssstttuuv"
+line> W is set to "UrrrrrsssstttuuvwVVrrrrrsssstttuuvrrrrrsssstttuuv"
+*** Undefined variable "X123"
+line> X123 is set to "ijklmn"
+line> X123 is set to "ijklmnijklmn"
+*** Invalid lvalue "123X"
+line> exit

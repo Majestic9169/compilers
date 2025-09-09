@@ -1,0 +1,9 @@
+S = abc^2 . def^2 . xyz
+T = $S ^ 2
+U = r^5 . s^4 . t^3 . u^2 . v^1 . w
+V = r^5 . s^4 . t^3 . u^2 . v^1 . w^0
+W = U . $U . V^2 . $V^2
+X123 = $X123 . ijklmn
+X123 = $X123 . ijklmn
+123X = 123X
+exit

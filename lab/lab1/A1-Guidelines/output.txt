@@ -1,0 +1,13 @@
++++ Line 1 processed: S1 is set to "ABCDEFGH"
++++ Line 2 processed: S2 is set to "IJKLMNOP"
++++ Line 3 processed: S3 is set to "QRSTUVWXYZ"
++++ Line 4 processed: S is set to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
++++ Line 5 processed: T is set to "AEEIIIOOOOUUUUU"
++++ Line 6 processed: S4 is set to "ABCDEFGHIJKLMNOPQrstuvwXYZ"
+    *** Reference to undefined variable "S5"
++++ Line 7 processed: S5 is set to "AEEIIIOOOOUUUUU"
+    *** Invalid character '=' found. Line 8 cannot be processed
+    *** Invalid character '-' found. Line 9 cannot be processed
+    *** Invalid string "abcdef" in rvalue: Line 10 cannot be processed
+    *** Invalid character '1' found. Line 11 cannot be processed
+    *** Invalid character '4' found. Line 12 cannot be processed

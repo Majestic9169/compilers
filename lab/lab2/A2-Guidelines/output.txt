@@ -1,0 +1,12 @@
++++ Storing S = aaaaBaaaaBCaaaaBaaaaBCaaaaBaaaaBCddddd
++++ Storing S1 = uvw
++++ Storing S2 = xyz
++++ Storing T = uvwuvwxyzxyzuvwxyzuvwxyz
++++ Storing T_ = UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU
++++ Storing T__ = pqqpqqrpqqpqqr
++++ Storing _T = ABCDEEDEECDEEDEEBCDEEDEECDEEDEEABCDEEDEECDEEDEEBCDEEDEECDEEDEE
+*** Invalid character '-'
++++ Storing S = aaaaBaaaaBCaaaaBaaaaBCaaaaBaaaaBCddddd
+*** Invalid character '^'
++++ Storing T = uvwuvwxyzxyzuvwxyzuvwxyz
+*** Error at line 10: ) expected

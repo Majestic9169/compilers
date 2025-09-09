@@ -1,0 +1,20 @@
+GUIDELINES FOR EVALUATING LA0
+
+OUTPUT
+------
+
+Please use the sample input file.
+
+	2.5 marks for each line.
+
+	TOTAL: 20
+
+CODE
+----
+	Parsing				40	[lvalue (10) + operator handling (10) + concatenation (10) + exponentiation (10)]
+	Symbol-table maintenance	20	[lookup (10) + store (10)]
+	Error handling			20	[Invalid l-value (10) + undefined variable (10)]
+
+	TOTAL: 80
+
+GRAND TOTAL: 100

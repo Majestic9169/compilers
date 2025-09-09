@@ -1,0 +1,27 @@
+GUIDELINES FOR EVALUATNG LA1
+----------------------------
+
+OUTPUT
+------
+
+Please use the sample input file. 2 marks for each line.
+
+	Total: 24
+
+CODE
+----
+
+	Recognition of tokens (regular expressions and rules)			10
+	Correct use of lex states						10
+	String Operations
+		Concatenation							10
+		Exponentiation							10
+		Range selection							10
+	Error Detection
+		Undefined variables (including symbol-table management)		10
+		During pattern matching	(including bad l-value)			10
+	Input redirection (setting yyin)					 6
+
+	Total: 76
+
+Grand Total: 100

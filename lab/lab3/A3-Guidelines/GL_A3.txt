@@ -1,0 +1,32 @@
+Guidelines for Evaluating LA3
+-----------------------------
+
+Output
+------
+	Please run on the attached input.txt (the sample output for this is attached as
+	output.txt.
+
+	Correctness and details for each of the ten input lines: 3
+
+	Total:  30
+
+Code
+----
+	Lex file
+		Correct handling of token types			 5
+		Use of RVALUE					 5
+		Catching and ignoring invalid characters	 5
+	Stack element (credit for both C and C++ constructs)	10
+	Parsing
+		Preparing the parse table (may be done as
+			a table or as switch statements)	 5
+		Handle accept					 5
+		Handle shift					 5
+		Handle reduction				10
+		Handle Error Detection				 5
+	Symbol-table management					 5
+	Printing in the desired format				10
+
+	Total: 70
+
+Grand Total: 100

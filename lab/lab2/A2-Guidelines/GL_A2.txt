@@ -1,0 +1,31 @@
+GUIDELINES FOR EVALUATING LA2
+-----------------------------
+
+OUTPUT
+------
+	Please use the sample input file.
+        2 marks for each line.
+
+	Total: 20
+
+CODE
+----
+	LEX
+		Patterns and returning tokens				8
+		Using the state RVALUE					8
+	Parsing
+		Call of yylex() at appropriate instants			8
+		Inside the functions for non-terminal symbols
+			Correct consultation of the parsing table	8
+			Correct recursive calls				8
+			Consuming input token with proper matching	8
+			String computations
+				(Concatenation and exponentiation)	8
+			Returning the strings				8
+	Error Handling
+		Pattern matching errors in Lex				8
+		Parsing errors						8
+
+	Total: 80
+
+GRAND TOTAL: 100
