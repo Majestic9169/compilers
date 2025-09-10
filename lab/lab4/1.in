@@ -1,0 +1,16 @@
+s01 = computer - copter + empty - emu
+s01 = computer - (copter + empty - emu)
+s01 = computer - copter - empty + emu
+s02 = abc^9 + d^9 - c^9
+s03 = (abc^9 + d^9)[6,14] - c^9
+s04 = (abc^9 + d^9)[<15] - c^9
+s05 = (abc^9 + d^9)[>15] - c^9
+s06 = $s02^3 - $s05 - $s05 - $s03^10
+s07 = $s1 + ab^5
+s08 = (abc^3 + d^5)[3,10] - (c + d^3)^2
+s09 = (abc + d)^3[3,10] - (c + d^3)^2
+s10 = (abc + d)^3[3,10]^2 - (c + d^3)^2
+s11 = ab^4^3-b^2^6
+s12 = abcdEFGHijklMNOPqrstUVWXyz[<12][>6]
+s12 = abcdEFGHijklMNOPqrstUVWXyz[>12][<6]
+ 
