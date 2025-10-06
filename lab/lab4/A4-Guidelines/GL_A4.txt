@@ -1,0 +1,28 @@
+Guidelines for Evaluating LA4
+-----------------------------
+
+Output
+------
+        Please run on the attached sample input.txt. The corresponding output is provided
+        as output.txt. The last input line leads to a parsing error.
+
+        2 marks for each input line
+
+        Total: 20
+
+Code
+----
+        Lex file (including unrecognized char)          10
+        Yacc rules specification                        20
+        Functions for string operations
+            (may be written in the yacc file or in a separate file)
+                String addition                         10
+                String subtraction                      10
+                String exponentiation                   10
+                String range selection                  10
+        Symbol-table management                         10
+        --------------------------------------------------
+        Total                                           80
+        --------------------------------------------------
+
+Grand Total: 100

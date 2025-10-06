@@ -1,0 +1,10 @@
+    Stored t = bbbabab
+    Stored s = abcabcababcababcababc
+    Stored s1 = accaacaccabc
+    Stored s2 = accaacaccabc
+    Stored s3 = accaacacc
+    Stored s4 = aaaa
+    Stored s = aAbBcCdDeEfFgGhH
+    Stored s5 = ABCDEFGH
+    Stored s6 = abcdefgh
+*** Error in Line 10: syntax error
