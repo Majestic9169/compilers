@@ -1,0 +1,10 @@
+**/*.out
+**/parser
+**/line
+**/calc
+**/lex.yy.c
+**/*.tab.h
+**/*.tab.c
+**/.*
+**/*.zip
+**/__MACOS*
