@@ -7,7 +7,7 @@
 
 #define MAX_TABLE_SIZE 1024
 #define MAX_STR_LEN 200
-#define POINTER_SIZE 8
+#define POINTER_SIZE sizeof(void *)
 
 struct TypeNode {
   char *category;
@@ -57,16 +57,16 @@ int add_type(char *category, int dimension, int reference, int width) {
 
 void init_tt() {
   add_type("void", -1, -1, 0);
-  add_type("unsigned char", -1, -1, 1);
-  add_type("char", -1, -1, 1);
-  add_type("unsigned short", -1, -1, 2);
-  add_type("short", -1, -1, 2);
-  add_type("unsigned long", -1, -1, 8);
-  add_type("long", -1, -1, 8);
-  add_type("unsigned int", -1, -1, 4);
-  add_type("int", -1, -1, 4);
-  add_type("float", -1, -1, 4);
-  add_type("double", -1, -1, 8);
+  add_type("unsigned char", -1, -1, sizeof(unsigned char));
+  add_type("char", -1, -1, sizeof(char));
+  add_type("unsigned short", -1, -1, sizeof(unsigned short));
+  add_type("short", -1, -1, sizeof(short));
+  add_type("unsigned long", -1, -1, sizeof(long));
+  add_type("long", -1, -1, sizeof(long));
+  add_type("unsigned int", -1, -1, sizeof(unsigned int));
+  add_type("int", -1, -1, sizeof(int));
+  add_type("float", -1, -1, sizeof(float));
+  add_type("double", -1, -1, sizeof(double));
   return;
 }
 
