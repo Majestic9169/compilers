@@ -17,7 +17,8 @@
   int sym_index;
 }
 
-%type <type_index> basic prog declist varlist decl dim _st_push
+%type <type_index> basic prog declist varlist decl dim _st_push var
+%type <sym_index> _fetch_sym
 
 %token <num> NUM
 %token <str> VOID UCHR CHR SRT USRT LNG ULNG UINT INT FLT DBL ID STRUCT
@@ -26,7 +27,7 @@
 %% 
 
 prog      : <sym_index>{ $$ = push_st("main"); } 
-            declist                                                         { printf("+++ All declarations read\n"); }
+            declist                                                         { printf("+++ All declarations read\n\n"); }
           ;
 declist   : declist 
                     <sym_index>{ $$ = $<sym_index>0; } 
@@ -39,22 +40,22 @@ decl      : basic
             varlist SEMICOLON
           | STRUCT ID LBRACE 
                     _st_push 
-                    <sym_index>{ $$ = TT.tt[$4].reference; }
+                    _fetch_sym
             declist RBRACE 
                     { TT.tt[$4].width = SC.st[$5].curr_width; }
                     <sym_index>{ $$ = $<sym_index>0; }
                     <type_index>{ $$ = $4; }
-            varlist SEMICOLON
+            varlist SEMICOLON                                               {}
           | STRUCT ID LBRACE 
                     _st_push 
-                    <sym_index>{ $$ = TT.tt[$4].reference; }
+                    _fetch_sym
             declist RBRACE 
                     { TT.tt[$4].width = SC.st[$5].curr_width; }
-            SEMICOLON
+            SEMICOLON                                                       {}
           | STRUCT ID 
                     <sym_index>{ $$ = $<sym_index>0; }
                     <type_index>{ $$ = add_struct($2, find_struct($2)); }
-            varlist SEMICOLON
+            varlist SEMICOLON                                               {}
           ;
 basic     : VOID                                                            { $$ = 0;  }
           | UCHR                                                            { $$ = 1;  }
@@ -72,12 +73,12 @@ varlist   : varlist COMMA
                     <sym_index>{ $$ = $<sym_index>-1; }
                     <type_index>{ $$ = $<type_index>0; } 
             var                      
-          | var
+          | var                                                             {}
           ;
 var       : DEREF 
                     <sym_index>{ $$ = $<sym_index>-1; }
                     <type_index>{ $$ = add_pointer($<type_index>0); } 
-            var
+            var                                                             {}
           | ID 
                     <type_index>{ $$ = $<type_index>0; } 
            dim                                                              { add_var($<sym_index>-1, $1, $3); }
@@ -89,5 +90,6 @@ dim       : LPN NUM RPN
           ;
 _st_push  :                                                                 { $$ = push_st($<str>-1); }
           ;
+_fetch_sym:                                                                 { $$ = TT.tt[$<type_index>0].reference; }
 
 %% 

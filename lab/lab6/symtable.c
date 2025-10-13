@@ -29,7 +29,7 @@ struct SymCluster SC = {
 };
 
 int push_st(char *name) {
-  printf("debug: adding struct %d with name %s\n", SC.size, name);
+  /* printf("debug: adding struct %d with name %s\n", SC.size, name); */
   int tt_index = 0;
 
   SC.st[SC.size].index = SC.size;
@@ -42,7 +42,7 @@ int push_st(char *name) {
   }
 
   SC.size++;
-  printf("debug: SC.size = %d\n", SC.size);
+  /* printf("debug: SC.size = %d\n", SC.size); */
 
   return tt_index;
 }
@@ -50,7 +50,7 @@ int push_st(char *name) {
 int find_struct(char *name) {
   for (int i = 1; i < SC.size; i++) {
     if (!strcmp(SC.st[i].name, name)) {
-      printf("debug: found st %d with name %s\n", i, SC.st[i].name);
+      /* printf("debug: found st %d with name %s\n", i, SC.st[i].name); */
       return i;
     }
   }
@@ -70,7 +70,8 @@ int get_var(int st_id, const char *id) {
 }
 
 int add_var(int st_id, const char *id, int type) {
-  printf("debug: add variable %s with type %d to st %d\n", id, type, st_id);
+  /* printf("debug: add variable %s with type %d to st %d\n", id, type, st_id);
+   */
 
   if (get_var(st_id, id) == -1) {
     struct Node var;
