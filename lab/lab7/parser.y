@@ -57,17 +57,17 @@ decl      : basic
                     <type_index>{ $$ = add_struct($2, find_struct($2)); }
             varlist SEMICOLON                                               {}
           ;
-basic     : VOID                                                            { $$ = 0;  }
-          | UCHR                                                            { $$ = 1;  }
-          | CHR                                                             { $$ = 2;  }
-          | USRT                                                            { $$ = 3;  }
-          | SRT                                                             { $$ = 4;  }
-          | ULNG                                                            { $$ = 5;  }
-          | LNG                                                             { $$ = 6;  }
-          | UINT                                                            { $$ = 7;  }
-          | INT                                                             { $$ = 8;  }
-          | FLT                                                             { $$ = 9;  }
-          | DBL                                                             { $$ = 10; }
+// basic     : VOID                                                            { $$ = 0;  }
+//           | UCHR                                                            { $$ = 1;  }
+//           | CHR                                                             { $$ = 2;  }
+//           | USRT                                                            { $$ = 3;  }
+//           | SRT                                                             { $$ = 4;  }
+//           | ULNG                                                            { $$ = 5;  }
+basic     : LNG                                                             { $$ = 1;  }
+          // | UINT                                                            { $$ = 7;  }
+          | INT                                                             { $$ = 0;  }
+          | FLT                                                             { $$ = 2;  }
+          | DBL                                                             { $$ = 3; }
           ;
 varlist   : varlist COMMA 
                     <sym_index>{ $$ = $<sym_index>-1; }
@@ -75,11 +75,11 @@ varlist   : varlist COMMA
             var                      
           | var                                                             {}
           ;
-var       : DEREF 
-                    <sym_index>{ $$ = $<sym_index>-1; }
-                    <type_index>{ $$ = add_pointer($<type_index>0); } 
-            var                                                             {}
-          | ID 
+// var       : DEREF 
+//                     <sym_index>{ $$ = $<sym_index>-1; }
+//                     <type_index>{ $$ = add_pointer($<type_index>0); } 
+//             var                                                             {}
+var       : ID 
                     <type_index>{ $$ = $<type_index>0; } 
            dim                                                              { add_var($<sym_index>-1, $1, $3); }
           ;

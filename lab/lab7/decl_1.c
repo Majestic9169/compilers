@@ -1,12 +1,19 @@
-char roll[10], name[101];
-unsigned short int yob;
-float CGPA;
-char gender;
+long a, b;
 
-long int a, *p, **q, ***r, A[5], B[6][7], **C[2][3][4];
+float c;
 
-double points[100][3], *P;
+int A[5][10];
 
-void *vptr;
+struct coll {
+  float f;
+  double d;
+  long x;
+  int A[100];
+};
 
-unsigned char letters[26];
+struct coll S, T[10][10];
+
+struct bigcoll {
+  long n;
+  struct coll C[5][5];
+} BC[10];

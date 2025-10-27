@@ -56,15 +56,15 @@ int add_type(char *category, int dimension, int reference, int width) {
 }
 
 void init_tt() {
-  add_type("void", -1, -1, 0);
-  add_type("unsigned char", -1, -1, sizeof(unsigned char));
-  add_type("char", -1, -1, sizeof(char));
-  add_type("unsigned short", -1, -1, sizeof(unsigned short));
-  add_type("short", -1, -1, sizeof(short));
-  add_type("unsigned long", -1, -1, sizeof(long));
-  add_type("long", -1, -1, sizeof(long));
-  add_type("unsigned int", -1, -1, sizeof(unsigned int));
+  /* add_type("void", -1, -1, 0); */
+  /* add_type("unsigned char", -1, -1, sizeof(unsigned char)); */
+  /* add_type("char", -1, -1, sizeof(char)); */
+  /* add_type("unsigned short", -1, -1, sizeof(unsigned short)); */
+  /* add_type("short", -1, -1, sizeof(short)); */
+  /* add_type("unsigned long", -1, -1, sizeof(long)); */
   add_type("int", -1, -1, sizeof(int));
+  add_type("long", -1, -1, sizeof(long));
+  /* add_type("unsigned int", -1, -1, sizeof(unsigned int)); */
   add_type("float", -1, -1, sizeof(float));
   add_type("double", -1, -1, sizeof(double));
   return;
@@ -87,8 +87,7 @@ int add_array(int dimension, int reference) {
 
 int add_struct(char *id, int sc_index) {
   char *category = malloc(sizeof(char) * MAX_STR_LEN);
-  snprintf(category, MAX_STR_LEN, "struct %s with symbol table %d", id,
-           sc_index);
+  snprintf(category, MAX_STR_LEN, "struct %s [st = %d]", id, sc_index);
   return add_type(category, -1, sc_index, -69);
 }
 
@@ -96,7 +95,7 @@ void print_tt() {
   printf("+++ %d Types\n", TT.size);
   for (int i = 0; i < TT.size; i++) {
     struct TypeNode var = TT.tt[i];
-    printf("    Type %3d: \t\t %-5d \t %s\n", i, var.width, var.category);
+    printf("    Type %3d: \t\t %-8d \t %s\n", i, var.width, var.category);
   }
 }
 

@@ -20,6 +20,7 @@ left_parantheses                "["
 right_parantheses               "]"
 comma                           ","
 deref                           "*"
+semicolon                       ";"
 
 l_val							{letter_}{letterdig_}*
 variable 					    {ref_op}{l_val}
@@ -104,11 +105,6 @@ struct                          "struct"
     return ID;
 }
 
-{deref} {
-    yylval.chr = '*';
-    return DEREF;
-}
-
 {comma} {
     yylval.chr = ',';
     return COMMA;
@@ -139,7 +135,7 @@ struct                          "struct"
     return RBRACE;
 }
 
-";" {
+{semicolon} {
     yylval.chr = ';';
     return SEMICOLON;
 }
