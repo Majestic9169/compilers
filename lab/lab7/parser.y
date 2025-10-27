@@ -25,7 +25,7 @@
 
 %type <type_index> basic prog declist varlist decl dim _st_push var
 %type <sym_index> _fetch_sym
-%type <addr> factor term expr smplitem item
+%type <addr> factor term expr smplitem item aref
 %type <st_index> stmtlist stmt asgn
 
 %token <intconst> NUM;
@@ -111,19 +111,19 @@ term      : term MUL factor                                                 { $$
           | term MOD factor                                                 { $$ = binary_op($1, $2, $3); }
           | factor                                                          { $$ = $1; }
           ;
-factor    : NUM                                                             { $$ = add_int($1); }
-          | FLTNUM                                                          { $$ = add_flt($1); }
+factor    : NUM                                                             { $$ = push_int($1); }
+          | FLTNUM                                                          { $$ = push_flt($1); }
           | item                                                            { load($1); $$ = $1; }
           | LPN expr RPN                                                    { $$ = $2; }
           ;
 item      : smplitem                                                        { $$ = $1; }
           | item DOT smplitem
           ;
-smplitem  : ID                                                              { $$ = add_id(0, $1); }
+smplitem  : ID                                                              { $$ = push_id(0, $1); } // TODO: handle st_index
           | aref
           ;
-aref      : aref LSQUARE expr RSQUARE
-          | ID LSQUARE expr RSQUARE                                         
+aref      : aref LSQUARE expr RSQUARE                                       { $$ = offset_calc($1, $3); }
+          | ID LSQUARE expr RSQUARE                                         { $$ = push_array(0, $1, $3->intval); } // TODO: handle st_index and diff expr types
           ;
 // MARKERS
 _st_push  :                                                                 { $$ = push_st($<str>-1); }
