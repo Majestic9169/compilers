@@ -12,15 +12,24 @@ wsnlop							[ \t\n]*
 letter_						    [a-zA-Z_]
 letterdig_				        [a-zA-Z0-9_]
 nneg_int					    [0-9]+
+nneg_flt                        \d+[.]\d*
 nl 								"\n"
 
 left_brace                      "{"
 right_brace                     "}"
-left_parantheses                "["
-right_parantheses               "]"
+left_parantheses                "("
+right_parantheses               ")"
+left_square                     "["
+right_square                    "]"
 comma                           ","
-deref                           "*"
+mul                             "*"
+div                             "/"
+plus                            "+"
+minus                           "-"
+asg                             "="
+mod                             "%"
 semicolon                       ";"
+struct_ref                      "."
 
 l_val							{letter_}{letterdig_}*
 variable 					    {ref_op}{l_val}
@@ -40,44 +49,9 @@ struct                          "struct"
 
 <*>{wsnlop} {}
 
-{void} {
-    yylval.type_index = 0;
-    return VOID;
-}
-
-{unsigned}{wsnl}{char} {
-    yylval.type_index = 1;
-    return UCHR;
-}
-
-{char} {
-    yylval.type_index = 2;
-    return CHR;
-}
-
-{unsigned}{wsnl}{short}({wsnl}{int})? {
-    yylval.type_index = 3;
-    return USRT;
-}
-
-{short}({wsnl}{int})? {
-    yylval.type_index = 4;
-    return SRT;
-}
-
-{unsigned}{wsnl}{long}({wsnl}{int})? {
-    yylval.type_index = 5;
-    return ULNG;
-}
-
 {long}({wsnl}{int})? {
     yylval.type_index = 6;
     return LNG;
-}
-
-{unsigned}({wsnl}{int})? {
-    yylval.type_index = 7;
-    return UINT;
 }
 
 {int} {
@@ -105,23 +79,73 @@ struct                          "struct"
     return ID;
 }
 
+{asg} {
+    yylval.chr = '=';
+    return ASG;
+}
+
+{plus} {
+    yylval.chr = '+';
+    return PLUS;
+}
+
+{minus} {
+    yylval.chr = '-';
+    return MINUS;
+}
+
+{mul} {
+    yylval.chr = '*';
+    return MUL;
+}
+
+{div} {
+    yylval.chr = '/';
+    return DIV;
+}
+
+{mod} {
+    yylval.chr = '%';
+    return MOD;
+}
+
 {comma} {
     yylval.chr = ',';
     return COMMA;
 }
 
-{left_parantheses} {
+{struct_ref} {
+    yylval.chr = '.';
+    return DOT;
+}
+
+{left_square} {
     yylval.chr = '[';
+    return LSQUARE;
+}
+
+{right_square} {
+    yylval.chr = ']';
+    return RSQUARE;
+}
+
+{left_parantheses} {
+    yylval.chr = ')';
     return LPN;
 }
 
+{nneg_flt} {
+    yylval.fltconst = atof(yytext);
+    return FLTNUM;
+}
+
 {nneg_int} {
-    yylval.num = atoi(yytext);
+    yylval.intconst = atoi(yytext);
     return NUM;
 }
 
 {right_parantheses} {
-    yylval.chr = ']';
+    yylval.chr = '(';
     return RPN;
 }
 

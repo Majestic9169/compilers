@@ -17,3 +17,7 @@ struct bigcoll {
   long n;
   struct coll C[5][5];
 } BC[10];
+
+a = 10;
+b = a;
+c = a + b;

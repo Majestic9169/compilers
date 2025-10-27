@@ -56,15 +56,8 @@ int add_type(char *category, int dimension, int reference, int width) {
 }
 
 void init_tt() {
-  /* add_type("void", -1, -1, 0); */
-  /* add_type("unsigned char", -1, -1, sizeof(unsigned char)); */
-  /* add_type("char", -1, -1, sizeof(char)); */
-  /* add_type("unsigned short", -1, -1, sizeof(unsigned short)); */
-  /* add_type("short", -1, -1, sizeof(short)); */
-  /* add_type("unsigned long", -1, -1, sizeof(long)); */
   add_type("int", -1, -1, sizeof(int));
   add_type("long", -1, -1, sizeof(long));
-  /* add_type("unsigned int", -1, -1, sizeof(unsigned int)); */
   add_type("float", -1, -1, sizeof(float));
   add_type("double", -1, -1, sizeof(double));
   return;
@@ -96,6 +89,25 @@ void print_tt() {
   for (int i = 0; i < TT.size; i++) {
     struct TypeNode var = TT.tt[i];
     printf("    Type %3d: \t\t %-8d \t %s\n", i, var.width, var.category);
+  }
+}
+
+char *short_type(int type_index) {
+  switch (type_index) {
+  case 0:
+    return "int";
+    break;
+  case 1:
+    return "lng";
+    break;
+  case 2:
+    return "flt";
+    break;
+  case 3:
+    return "dbl";
+    break;
+  default:
+    return TT.tt[type_index].category;
   }
 }
 

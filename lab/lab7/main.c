@@ -1,5 +1,4 @@
 #include "parser.tab.h"
-#include "symtable.c"
 #include "typetable.c"
 #include <stdio.h>
 
@@ -23,9 +22,6 @@ int main(int argc, char **argv) {
     yyin = (FILE *)fopen(argv[1], "r");
   }
   yyparse();
-
-  print_tt();
-  print_sym();
 
   return 0;
 }
