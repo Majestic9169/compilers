@@ -15,7 +15,49 @@ struct addr {
   enum addr_category cat;
 };
 
-// TODO: handle typecasting
+char *print_val(struct addr *nonterminal) {
+  char *val = malloc(sizeof(char) * 16);
+  switch (nonterminal->cat) {
+  case INTCONST:
+    sprintf(val, "%d", nonterminal->intval);
+    break;
+  case FLTCONST:
+    sprintf(val, "%f", nonterminal->fltval);
+    break;
+  case TEMP:
+    sprintf(val, "t%d", nonterminal->offset);
+    break;
+  case TOFFSET:
+    sprintf(val, "%d", nonterminal->offset);
+    break;
+  default:
+    fprintf(stderr,
+            "\033[91m*** codegen: unexpected nonterminal type %d\n\033[0m",
+            nonterminal->cat);
+    exit(1);
+    break;
+  }
+  return val;
+}
+
+char *print_memblk(struct addr *nonterminal) {
+  char *memblk = malloc(sizeof(char) * 16);
+  switch (nonterminal->cat) {
+  case INTCONST:
+  case FLTCONST:
+    sprintf(memblk, "MEM(%d, %d)", nonterminal->offset,
+            TT.tt[nonterminal->type].width);
+    break;
+  case TOFFSET:
+    sprintf(memblk, "MEM(t%d, %d)", nonterminal->offset,
+            TT.tt[nonterminal->type].width);
+    break;
+  default:
+    break;
+  }
+  return memblk;
+}
+
 struct addr *push_int(int val) {
   struct addr *addr = malloc(sizeof(struct addr));
   addr->intval = val;
@@ -35,6 +77,7 @@ struct addr *push_flt(double val) {
 }
 
 struct addr *push_id(int st_index, char *id) {
+  /* printf("debug: pushing id from st %d\n", st_index); */
   struct addr *addr = malloc(sizeof(struct addr));
   struct Node symbol = SC.st[st_index].st[get_var(st_index, id)];
   addr->type = symbol.type_index;
@@ -44,44 +87,31 @@ struct addr *push_id(int st_index, char *id) {
   return addr;
 }
 
-void handle_conversion(struct addr *lval, struct addr *expr) {
-  if (expr->cat != OFFSET && expr->cat != TOFFSET)
-    printf("    [%s] t%d = (%s2%s)", short_type(lval->type), temp_counter++,
-           short_type(expr->type), short_type(lval->type));
-  switch (expr->cat) {
-  case INTCONST:
-    printf("%d\n", expr->intval);
-    break;
-  case FLTCONST:
-    printf("%f\n", expr->fltval);
-    break;
-  case TEMP:
-    printf("t%d\n", expr->offset);
-    break;
-  default:
-    fprintf(stderr, "\033[91m*** codegen: unexpected expr type %d\n\033[0m",
-            expr->cat);
-    exit(1);
-    break;
+int max(int type1, int type2) { return type1 > type2 ? type1 : type2; }
+
+struct addr *widen(struct addr *expr, int type) {
+  if (expr->type != type) {
+    printf("    [%s] t%d = (%s2%s)%s\n", short_type(type), temp_counter++,
+           short_type(expr->type), short_type(type), print_val(expr));
+    expr->type = type;
+    expr->cat = TEMP;
+    expr->offset = temp_counter - 1;
   }
-  expr->cat = TEMP;
-  expr->offset = temp_counter - 1;
+  return expr;
+}
+
+void handle_conversion(struct addr *lval, struct addr *expr) {
+  if (lval->type == expr->type) {
+    return;
+  }
+  int larger_type = max(lval->type, expr->type);
+  lval = widen(lval, larger_type);
+  expr = widen(expr, larger_type);
 }
 
 void load(struct addr *ref) {
-  switch (ref->cat) {
-  case INTCONST:
-  case FLTCONST:
-    printf("    [%s] t%d = MEM(%d, %d)\n", short_type(ref->type),
-           temp_counter++, ref->offset, TT.tt[ref->type].width);
-    break;
-  case TOFFSET:
-    printf("    [%s] t%d = MEM(t%d, %d)\n", short_type(ref->type),
-           temp_counter++, ref->offset, TT.tt[ref->type].width);
-    break;
-  default:
-    break;
-  }
+  printf("    [%s] t%d = %s\n", short_type(ref->type), temp_counter++,
+         print_memblk(ref));
   ref->cat = TEMP;
   ref->offset = temp_counter - 1;
 }
@@ -93,61 +123,20 @@ int store(struct addr *lval, struct addr *expr) {
     exit(1);
   } else {
     if (lval->type != expr->type) {
-      handle_conversion(lval, expr);
+      widen(expr, lval->type);
     }
-
-    switch (lval->cat) {
-    case INTCONST:
-    case FLTCONST:
-      printf("    [%s] MEM(%d, %d) = ", short_type(lval->type), lval->offset,
-             TT.tt[lval->type].width);
-      break;
-    case TOFFSET:
-      printf("    [%s] MEM(t%d, %d) = ", short_type(lval->type), lval->offset,
-             TT.tt[lval->type].width);
-      break;
-    default:
-      fprintf(stderr, "\033[91m*** codegen: unexpected lval cat %d\n\033[0m",
-              expr->cat);
-      exit(1);
-      break;
-    }
-
-    switch (expr->cat) {
-    case TEMP:
-      printf("t%d\n", expr->offset);
-      break;
-    case INTCONST:
-      printf("%d\n", expr->intval);
-      break;
-    case FLTCONST:
-      printf("%f\n", expr->fltval);
-      break;
-    default:
-      printf("debug: expr category %d not handled yet\n", expr->cat);
-    }
+    printf("    [%s] %s = %s\n", short_type(lval->type), print_memblk(lval),
+           print_val(expr));
   }
   return 0;
 }
 
 struct addr *binary_op(struct addr *op1, char operator, struct addr *op2) {
-  // TODO: handle implicit conversions?
-  // TODO: handle diff categories
-  printf("    [%s] t%d = t%d %c", short_type(op1->type), temp_counter++,
-         op1->offset, operator);
-  switch (op2->cat) {
-  case INTCONST:
-    printf("%d\n", op2->intval);
-    break;
-  case FLTCONST:
-    printf("%f\n", op2->fltval);
-  case TEMP:
-  case TOFFSET:
-    printf("t%d\n", op2->offset);
-    break;
-  default:
-    break;
+  if (op1->type != op2->type) {
+    handle_conversion(op1, op2);
   }
+  printf("    [%s] t%d = t%d %c %s\n", short_type(op1->type), temp_counter++,
+         op1->offset, operator, print_val(op2));
   op1->offset = temp_counter - 1;
   return op1;
 }
@@ -167,7 +156,6 @@ struct addr *push_array(int st_index, char *id, int num) {
 }
 
 struct addr *offset_calc(struct addr *aref, struct addr *expr) {
-  // TODO: handle diff expr categories
   printf("    [int] t%d = %d * %d\n", temp_counter++,
          TT.tt[TT.tt[aref->type].reference].width, expr->intval);
   printf("    [int] t%d = t%d + t%d\n", temp_counter, aref->offset,
@@ -176,4 +164,16 @@ struct addr *offset_calc(struct addr *aref, struct addr *expr) {
   aref->offset = temp_counter++;
   aref->cat = TOFFSET;
   return aref;
+}
+
+struct addr *push_struct(int st_index, struct addr *struct_parent,
+                         struct addr *struct_child) {
+  struct addr *addr = malloc(sizeof(struct addr));
+  addr->offset = struct_child->offset;
+  printf("    [int] t%d = t%d + %s\n", temp_counter, temp_counter - 1,
+         print_val(struct_parent));
+  addr->type = struct_child->type;
+  addr->offset = temp_counter++;
+  addr->cat = TOFFSET;
+  return addr;
 }

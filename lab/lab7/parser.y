@@ -100,7 +100,8 @@ stmtlist  : stmtlist stmt
           ;
 stmt      : asgn                                                            { printf("\n"); }
           ;
-asgn      : item ASG expr SEMICOLON                                         { $$ = store($1, $3); }
+asgn      : <sym_index>{ $$ = 0; }
+            item ASG expr SEMICOLON                                         { $$ = store($2, $4); }
           ;
 expr      : expr PLUS term                                                  { $$ = binary_op($1, $2, $3); }
           | expr MINUS term                                                 { $$ = binary_op($1, $2, $3); }
@@ -113,17 +114,20 @@ term      : term MUL factor                                                 { $$
           ;
 factor    : NUM                                                             { $$ = push_int($1); }
           | FLTNUM                                                          { $$ = push_flt($1); }
-          | item                                                            { load($1); $$ = $1; }
+          | <sym_index>{ $$ = 0; } 
+            item                                                            { load($2); $$ = $2; }
           | LPN expr RPN                                                    { $$ = $2; }
           ;
 item      : smplitem                                                        { $$ = $1; }
-          | item DOT smplitem
+          | item DOT 
+                    <sym_index>{ $$ = TT.tt[$1->type].reference; }
+            smplitem                                                        { $$ = push_struct($3, $1, $4); }
           ;
-smplitem  : ID                                                              { $$ = push_id(0, $1); } // TODO: handle st_index
+smplitem  : ID                                                              { $$ = push_id($<sym_index>0, $1); } // TODO: handle st_index
           | aref
           ;
 aref      : aref LSQUARE expr RSQUARE                                       { $$ = offset_calc($1, $3); }
-          | ID LSQUARE expr RSQUARE                                         { $$ = push_array(0, $1, $3->intval); } // TODO: handle st_index and diff expr types
+          | ID LSQUARE expr RSQUARE                                         { $$ = push_array($<sym_index>0, $1, $3->intval); } // TODO: handle st_index and diff expr types
           ;
 // MARKERS
 _st_push  :                                                                 { $$ = push_st($<str>-1); }

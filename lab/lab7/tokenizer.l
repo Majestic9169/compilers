@@ -12,7 +12,7 @@ wsnlop							[ \t\n]*
 letter_						    [a-zA-Z_]
 letterdig_				        [a-zA-Z0-9_]
 nneg_int					    [0-9]+
-nneg_flt                        \d+[.]\d*
+nneg_flt                        [0-9]+[.][0-9]*
 nl 								"\n"
 
 left_brace                      "{"
