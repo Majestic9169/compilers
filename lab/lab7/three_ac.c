@@ -87,7 +87,17 @@ struct addr *push_id(int st_index, char *id) {
   return addr;
 }
 
-int max(int type1, int type2) { return type1 > type2 ? type1 : type2; }
+int max(int type1, int type2) {
+  if (type1 == type2)
+    return type1;
+  if (type1 == 0 || type2 == 0)
+    return type1 == 0 ? type2 : type1;
+  if (type1 == 1 || type2 == 1)
+    return 3;
+  if (type1 == 2 || type2 == 2)
+    return 3;
+  return 3;
+}
 
 struct addr *widen(struct addr *expr, int type) {
   if (expr->type != type) {
