@@ -107,7 +107,9 @@ char *short_type(int type_index) {
     return "dbl";
     break;
   default:
-    return TT.tt[type_index].category;
+    fprintf(stderr, "\033[91m*** codegen: invalid type of lval %s\n\033[0m",
+            TT.tt[type_index].category);
+    exit(1);
   }
 }
 

@@ -19,7 +19,7 @@
   int st_index;
 
   int intconst;
-  int fltconst;
+  double fltconst;
   struct addr* addr;
 }
 
@@ -127,7 +127,7 @@ smplitem  : ID                                                              { $$
           | aref
           ;
 aref      : aref LSQUARE expr RSQUARE                                       { $$ = offset_calc($1, $3); }
-          | ID LSQUARE expr RSQUARE                                         { $$ = push_array($<sym_index>0, $1, $3->intval); } // TODO: handle st_index and diff expr types
+          | ID LSQUARE expr RSQUARE                                         { $$ = push_array($<sym_index>0, $1, $3); } // TODO: handle st_index and diff expr types
           ;
 // MARKERS
 _st_push  :                                                                 { $$ = push_st($<str>-1); }

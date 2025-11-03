@@ -135,7 +135,7 @@ struct                          "struct"
 }
 
 {nneg_flt} {
-    yylval.fltconst = atof(yytext);
+    yylval.fltconst = (double)atof(yytext);
     return FLTNUM;
 }
 
