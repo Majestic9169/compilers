@@ -17,7 +17,7 @@ if (c > a) {
   b = b + 5;
 }
 
-if (c > 0 && c < 100 || a != b) {
+if (c > -100 && c < 100 || a != b) {
   a = a + 5;
   b = b + 5;
 } else {
@@ -25,7 +25,7 @@ if (c > 0 && c < 100 || a != b) {
   b = b - 5;
 }
 
-while (c > 0 && c < 100 || a != b && a != c) {
+while (c > -100 && c < 100 || a != b && a != c) {
   a = a + 5;
   b = b - 5;
   c = a - b;
@@ -60,7 +60,7 @@ while (i < M.row) {
         if (i < j && i > j - 3) {
           M.A[i][j] = j - i;
         } else {
-          M.A[i][j] = 1;
+          M.A[i][j] = -1;
         }
       }
     }

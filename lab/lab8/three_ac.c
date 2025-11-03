@@ -197,6 +197,26 @@ struct addr *binary_op(struct addr *op1, char operator, struct addr *op2) {
   return op1;
 }
 
+struct addr *unary_op(struct addr *op1) {
+  switch (op1->cat) {
+  case INTCONST:
+    op1->intval = -op1->intval;
+    return op1;
+  case FLTCONST:
+    op1->fltval = -op1->fltval;
+    return op1;
+  case TEMP:
+  case TOFFSET:
+    sprintf(IR.table[IR.size++], "[%s] t%d = -t%d\n", short_type(op1->type),
+            temp_counter++, op1->offset);
+    op1->offset = temp_counter - 1;
+    return op1;
+  default:
+    return op1;
+  }
+  return op1;
+}
+
 struct addr *push_array(int st_index, char *id, struct addr *num) {
   struct addr *addr = malloc(sizeof(struct addr));
   struct Node symbol = SC.st[st_index].st[get_var(st_index, id)];

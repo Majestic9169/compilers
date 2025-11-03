@@ -158,7 +158,7 @@ expr      : expr PLUS term                                                  { $$
 term      : term MUL factor                                                 { $$ = binary_op($1, $2, $3); }
           | term DIV factor                                                 { $$ = binary_op($1, $2, $3); }
           | term MOD factor                                                 { $$ = binary_op($1, $2, $3); }
-          | MINUS term                                                      {  e}
+          | MINUS term                                                      { $$ = unary_op($2); }
           | factor                                                          { $$ = $1; }
           ;
 factor    : NUM                                                             { $$ = push_int($1); }
