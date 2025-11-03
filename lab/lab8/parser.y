@@ -112,7 +112,7 @@ stmtlist  : stmtlist
                                                                               backpatch($1->nextlist, $2);
                                                                               $$ = $3;
                                                                             }
-          |                                                                 {}
+          |                                                                 { $$ = push_stmt(NULL); }
           ;
 stmt      : asgn                                                            { $$ = push_stmt(NULL); }
           | IF LPN bool RPN LBRACE 
@@ -130,7 +130,7 @@ stmt      : asgn                                                            { $$
             stmtlist RBRACE                                                 {
                                                                               backpatch($3->truelist, $6);
                                                                               backpatch($3->falselist, $12);
-                                                                              struct list_node* tmp = merge($$->nextlist, $9->nextlist);
+                                                                              struct list_node* tmp = merge($7->nextlist, $9->nextlist);
                                                                               $$ = push_stmt(merge(tmp, $13->nextlist));
                                                                             }
           | WHILE LPN 
@@ -177,7 +177,6 @@ bool      : bool LOG_OR
                     _ir_index
             bool                                                            {
                                                                               backpatch($1->falselist, $3);
-                                                                              printf("\n\n"); print_ir();
                                                                               $$ = push_bool(merge($1->truelist, $4->truelist), $4->falselist);
                                                                             }
           | bool LOG_AND 

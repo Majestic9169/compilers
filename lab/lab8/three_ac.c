@@ -24,6 +24,9 @@ void init_ir() {
 
 void print_ir() {
   for (int i = 0; i < IR.size; i++) {
+    if (IR.isLeader[i]) {
+      printf("\n");
+    }
     printf("   %3d : %s", i, IR.table[i]);
   }
 }
@@ -262,13 +265,10 @@ struct list_node *merge(struct list_node *l1, struct list_node *l2) {
 void backpatch(struct list_node *p, int ir_index) {
   struct list_node *tmp = p;
   while (tmp != NULL) {
-    printf("debug: no segfault here\n");
-    printf("debug: backpatching %p statement %s\n", IR.table[tmp->ir_index],
-           IR.table[tmp->ir_index]);
-    /* char *loc = strstr(IR.table[tmp->ir_index], "---"); */
-    /* printf("debug: found replacement string loc %p %s\n", loc, loc); */
-    /* if (loc) */
-    /*   sprintf(loc, "%d\n", ir_index); */
+    char *loc = strstr(IR.table[tmp->ir_index], "---");
+    if (loc)
+      sprintf(loc, "%d\n", ir_index);
+    IR.isLeader[ir_index] = 1;
     tmp = tmp->next;
   }
 }
@@ -294,6 +294,7 @@ void push_goto(int instr) {
     sprintf(IR.table[IR.size++], "      goto ---");
   else
     sprintf(IR.table[IR.size++], "      goto %d\n", instr);
+  IR.isLeader[IR.size - 1] = 1;
 }
 
 void push_if(struct addr *e1, char *relop, struct addr *e2) {
