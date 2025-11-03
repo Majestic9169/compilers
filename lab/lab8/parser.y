@@ -54,7 +54,11 @@ prog      : <sym_index>{ $$ = push_st("main"); }
                       print_sym();
                       printf("\n\n");
                     }            
-            stmtlist                                                        { backpatch($4->nextlist, IR.size); }                                                     
+            stmtlist                                                        { 
+                                                                              printf("stmtlist ir:\n"); print_ir(); 
+                                                                              printf("debug: backpatching list %p\n", $4->nextlist);
+                                                                              backpatch($4->nextlist, IR.size); 
+                                                                            }
           ;
 // DECLARATION GRAMMAR
 declist   : declist 
@@ -140,7 +144,7 @@ stmt      : asgn                                                            { $$
             stmtlist RBRACE                                                 {
                                                                               backpatch($8->nextlist, $3);
                                                                               backpatch($4->truelist, $7);
-                                                                              push_stmt($4->falselist);
+                                                                              $$ = push_stmt($4->falselist);
                                                                               push_goto($3);
                                                                             }
           ;
@@ -154,6 +158,7 @@ expr      : expr PLUS term                                                  { $$
 term      : term MUL factor                                                 { $$ = binary_op($1, $2, $3); }
           | term DIV factor                                                 { $$ = binary_op($1, $2, $3); }
           | term MOD factor                                                 { $$ = binary_op($1, $2, $3); }
+          | MINUS term                                                      {  e}
           | factor                                                          { $$ = $1; }
           ;
 factor    : NUM                                                             { $$ = push_int($1); }

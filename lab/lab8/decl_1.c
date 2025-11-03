@@ -30,3 +30,41 @@ while (c > 0 && c < 100 || a != b && a != c) {
   b = b - 5;
   c = a - b;
 }
+
+n = 25;
+Catalan[0] = 1;
+i = 1;
+while (i <= n) {
+  Catalan[i] = 0;
+  j = 0;
+  while (j < i) {
+    Catalan[i] = Catalan[i] + Catalan[j] + Catalan[i - j - 1];
+    j = j + 1;
+  }
+  i = i + 1;
+}
+
+M.row = 10;
+M.col = 20;
+i = 0;
+
+while (i < M.row) {
+  j = 0;
+  while (j < M.col) {
+    if (i == j) {
+      M.A[i][j] = 0;
+    } else {
+      if (i > j && i < j + 3) {
+        M.A[i][j] = i - j;
+      } else {
+        if (i < j && i > j - 3) {
+          M.A[i][j] = j - i;
+        } else {
+          M.A[i][j] = 1;
+        }
+      }
+    }
+    j = j + 1;
+  }
+  i = i + 1;
+}

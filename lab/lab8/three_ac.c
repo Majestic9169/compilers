@@ -16,7 +16,7 @@ struct IR_TABLE IR = {.size = 0};
 
 void init_ir() {
   IR.size = 0;
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < MAX_TABLE_SIZE; i++) {
     IR.table[i] = malloc(sizeof(char) * MAX_STR_LEN);
     IR.isLeader[i] = 0;
   }
@@ -263,6 +263,7 @@ struct list_node *merge(struct list_node *l1, struct list_node *l2) {
 }
 
 void backpatch(struct list_node *p, int ir_index) {
+  printf("debug: backpatching list %p with %d\n", p, ir_index);
   struct list_node *tmp = p;
   while (tmp != NULL) {
     char *loc = strstr(IR.table[tmp->ir_index], "---");

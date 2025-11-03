@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_TABLE_SIZE 200
+#define MAX_TABLE_SIZE 1024
 #define MAX_STR_LEN 200
 #define POINTER_SIZE sizeof(void *)
 
