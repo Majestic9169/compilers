@@ -260,14 +260,14 @@ struct addr *push_struct(int st_index, struct addr *struct_parent,
 
 struct list_node *makelist(int i) {
   struct list_node *node = malloc(sizeof(struct list_node));
-  printf("debug: making list %p with val %d\n", node, i);
+  /* printf("debug: making list %p with val %d\n", node, i); */
   node->ir_index = i;
   node->next = NULL;
   return node;
 }
 
 struct list_node *merge(struct list_node *l1, struct list_node *l2) {
-  printf("debug: merging %p with %p\n", l1, l2);
+  /* printf("debug: merging %p with %p\n", l1, l2); */
   if (l1) {
     struct list_node *tmp = l1;
     /* printf("merge: traversing list %p\n", l1); */
@@ -283,7 +283,7 @@ struct list_node *merge(struct list_node *l1, struct list_node *l2) {
 }
 
 void backpatch(struct list_node *p, int ir_index) {
-  printf("debug: backpatching list %p with %d\n", p, ir_index);
+  /* printf("debug: backpatching list %p with %d\n", p, ir_index); */
   struct list_node *tmp = p;
   while (tmp != NULL) {
     char *loc = strstr(IR.table[tmp->ir_index], "---");
@@ -305,23 +305,27 @@ struct bool_stmt *push_bool(struct list_node *truelist,
   struct bool_stmt *stmt = malloc(sizeof(struct bool_stmt));
   stmt->truelist = truelist;
   stmt->falselist = falselist;
-  printf("debug: creating boolstmt with truelist %p falselist %p\n",
-         stmt->truelist, stmt->falselist);
+  /* printf("debug: creating boolstmt with truelist %p falselist %p\n", */
+  /* stmt->truelist, stmt->falselist); */
   return stmt;
 }
 
 void push_goto(int instr) {
-  if (instr < 0)
+  if (instr < 0) {
     sprintf(IR.table[IR.size++], "      goto ---");
-  else
+
+  } else {
     sprintf(IR.table[IR.size++], "      goto %d\n", instr);
-  IR.isLeader[IR.size - 1] = 1;
+    IR.isLeader[instr] = 1;
+  }
+  IR.isLeader[IR.size] = 1;
 }
 
 void push_if(struct addr *e1, char *relop, struct addr *e2) {
   handle_conversion(e1, e2);
   sprintf(IR.table[IR.size++], "      if %s %s %s goto ---", print_val(e1),
           relop, print_val(e2));
+  IR.isLeader[IR.size] = 1;
 }
 
 #endif

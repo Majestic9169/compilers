@@ -55,8 +55,8 @@ prog      : <sym_index>{ $$ = push_st("main"); }
                       printf("\n\n");
                     }            
             stmtlist                                                        { 
-                                                                              printf("stmtlist ir:\n"); print_ir(); 
-                                                                              printf("debug: backpatching list %p\n", $4->nextlist);
+                                                                              // printf("stmtlist ir:\n"); print_ir(); 
+                                                                              // printf("debug: backpatching list %p\n", $4->nextlist);
                                                                               backpatch($4->nextlist, IR.size); 
                                                                             }
           ;
